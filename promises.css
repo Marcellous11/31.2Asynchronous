@@ -1,0 +1,43 @@
+.card {
+	/* Add shadows to create the "card" effect */
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	/* background-image: url("https://deckofcardsapi.com/static/img/0C.png"); */
+	transition: 0.3s;
+	width: 60%;
+	border-radius: 5px;
+	justify-content: center;
+	position: absolute;
+	width: 225px;
+	height: 315px;
+	top: 475px;
+	left: 31%;
+}
+
+.rotate {
+	background-color: transparent;
+	/* outline: 2px dashed; */
+	transform: rotate(-15deg);
+}
+
+.button {
+	position: relative;
+	justify-content: center;
+	display: block;
+	padding: 15px 25px;
+	font-size: 24px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #fff;
+	background-color: #4caf50;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 9px #999;
+	left: 31%;
+}
+.button:active {
+	background-color: #3e8e41;
+	box-shadow: 0 5px #666;
+	transform: translateY(4px);
+}
