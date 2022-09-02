@@ -58,29 +58,55 @@ function getRndInteger(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-let resp = axios.get('http://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
-function drawCards(e) {
+// let resp = axios.get('http://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
+
+// function drawCards(e) {
+// 	e.preventDefault();
+// 	resp
+// 		.then((resp) => {
+// 			console.log(resp.data);
+// 			return axios.get(`http://deckofcardsapi.com/api/deck/${resp.data.deck_id}/draw/?count1`);
+// 		})
+// 		.then((resp) => {
+// 			console.log(resp.data.cards[0].image);
+// 			card = document.createElement('div');
+// 			card.classList.add('card');
+// 			card.style.backgroundImage = `url(${resp.data.cards[0].image})`;
+// 			card.style.transform = `rotate(${getRndInteger(-60, 60)}deg)`;
+// 			card.style.transformOrigin = `${getRndInteger(40, 60)}% ${getRndInteger(40, 60)}%`;
+// 			console.log(getRndInteger(-60, 60));
+// 			stack.append(card);
+// 			console.log(resp);
+// 		})
+// 		.catch((err) => {
+// 			btn.innerHTML = 'OUT OF CARDS!!!';
+// 			btn.style.backgroundColor = 'red';
+// 		});
+// }
+
+// btn.addEventListener('click', drawCards);
+
+//   REMEBER: the deck variable is a promise and has to be initalized in the function! Thats how this workds
+
+let URL = 'http://deckofcardsapi.com/api/deck';
+let deck = axios.get(`${URL}/new/shuffle/?deck_count=1`);
+async function drawCardsPart2(e) {
 	e.preventDefault();
-	resp
-		.then((resp) => {
-			console.log(resp.data);
-			return axios.get(`http://deckofcardsapi.com/api/deck/${resp.data.deck_id}/draw/?count1`);
-		})
-		.then((resp) => {
-			console.log(resp.data.cards[0].image);
-			card = document.createElement('div');
-			card.classList.add('card');
-			card.style.backgroundImage = `url(${resp.data.cards[0].image})`;
-			card.style.transform = `rotate(${getRndInteger(-60, 60)}deg)`;
-			card.style.transformOrigin = `${getRndInteger(40, 60)}% ${getRndInteger(40, 60)}%`;
-			console.log(getRndInteger(-60, 60));
-			stack.append(card);
-			console.log(resp);
-		})
-		.catch((err) => {
-			btn.innerHTML = 'OUT OF CARDS!!!';
-			btn.style.backgroundColor = 'red';
-		});
+	let pDeck = await deck;
+
+	try {
+		let apiCardInfo = await axios.get(`${URL}/${pDeck.data.deck_id}/draw/?count1`);
+		// console.log(deck.data.deck_id);
+		card = document.createElement('div');
+		card.classList.add('card');
+		card.style.backgroundImage = `url(${apiCardInfo.data.cards[0].image})`;
+		card.style.transform = `rotate(${getRndInteger(-60, 60)}deg)`;
+		card.style.transformOrigin = `${getRndInteger(40, 60)}% ${getRndInteger(40, 60)}%`;
+		stack.append(card);
+	} catch (e) {
+		btn.innerHTML = 'OUT OF CARDS!!!';
+		btn.style.backgroundColor = 'red';
+	}
 }
 
-btn.addEventListener('click', drawCards);
+btn.addEventListener('click', drawCardsPart2);
